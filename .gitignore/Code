@@ -1,0 +1,48 @@
+<html lang="de">
+<head>
+	<meta charset="utf-8" />
+  <title>Tooltipp mit jQuery</title>
+  <style>
+  body              { font-size:18px; text-align:center; }
+  div               { margin:20px auto; text-align:left;}
+  #bilder, #anzeige { width:720px; }
+  #anzeige p        { position:absolute; width:169px; background:#fff; display:none; padding:10px; }
+  #bilder img       { margin:0 6px 0 0; padding:0; cursor:pointer; }
+  </style>
+</head>
+<body>
+  <div id="bilder">
+  <img src="img/merkel1.jpg" alt="Merkel 1 | Schau dich nicht um, der Bushy geht um!" width="169" height="211">
+  <img src="img/merkel2.jpg" alt="Merkel 2 | Da gibt's kein Entrinnen mehr..." width="169" height="211">
+  <img src="img/merkel3.jpg" alt="Merkel 3 | Bitte, bitte nicht weh tun!" width="169" height="211">
+  <img src="img/merkel4.jpg" alt="Merkel 4 | Okay, ich geb auf!" width="169" height="211">
+  </div>
+  
+  <div id="anzeige"><p></p></div>
+  <script src="http://code.jquery.com/jquery-1.12.0.min.js"></script>
+  <script>
+  (function($) {
+    "use strict";
+
+    var $anzeige  = $(document.getElementById("anzeige"));
+    var $anzeigeP = $anzeige.find("p");
+    
+    $(document.getElementById("bilder")).on("mouseenter mouseleave mousemove", "img", function (evt) {
+      if (evt.type === "mouseenter") {
+        var $currentElement = $(this);
+        var texteArray = $currentElement.attr("alt").split(" | ");
+        $anzeigeP.html("<strong>" + texteArray[0] + "</strong><br>" + texteArray[1])
+                 .show();
+      } else if (evt.type == "mouseleave") {
+        $anzeigeP.html("")
+                 .hide();
+      } else {
+        $anzeigeP.css({ left:(evt.pageX + 14) + "px", 
+                        top: (evt.pageY - 14) + "px"});
+      }
+    });
+    
+  })(jQuery);
+  </script>
+</body>
+</html>
